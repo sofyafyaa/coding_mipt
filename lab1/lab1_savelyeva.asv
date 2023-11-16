@@ -102,15 +102,12 @@ R_X = 1 - (HL_cond/H_max);
 clear all; 
 load strings;
 
-disp('Dependence of H_l on an L')
-
 [X_alphabet, X_probability] = alphabet_probabilities(X);
 
 L = 2 : 20;
 N = length(X)-1;
 HL_cond = zeros(1, length(L));
 HL_mean = zeros(1, length(L));
-H_max = zeros(1, length(L));
 
 for ii = 1 : length(L)
     display([num2str(ii) ,') for L = ', num2str(L(ii))])
@@ -152,25 +149,12 @@ for ii = 1 : length(L)
     HL_mean(ii) = -sum(p_UL .* log2(p_UL)) / L(ii);
     display(['Mean L_entropy H_L_mean = ', num2str(HL_mean(ii))])
 
-    H_max(ii) = log2(length(samples_alphabet));
-    display(['Zero Entropy = ', num2str(H_max(ii))])
+    
+    H_max = log2(length(samples_alphabet));
+    R_X = 1 - (HL_cond(ii)/H_max);
+    display(['R(X) = ', num2str(HL_mean(ii))])
+
 end
 
-figure
-plot(L, HL_cond);
-title('H_L cond(L)');
-xlabel('L, symb');
-
-figure
-plot(L, HL_mean, 'DisplayName', 'H_L mean');
-
-hold on;
-plot(L, H_max, 'DisplayName', 'H max');
-hold off;
-
-legend
-
-title('H_L mean(L) & H max(L) comparison');
-xlabel('L, symb');
 
 
